@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This module defines the wait_random function."""
+"""This module defines the wait_n function."""
 from asyncio import create_task, as_completed
 from typing import List
 
