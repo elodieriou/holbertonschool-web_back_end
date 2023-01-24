@@ -3,7 +3,7 @@
 from asyncio import create_task, as_completed
 from typing import List
 
-wait_random = __import__('0-basic_async_syntax').wait_random
+task_wait_random = __import__('3-tasks').task_wait_random
 
 
 async def task_wait_n(n: int, max_delay: int) -> List[float]:
@@ -11,7 +11,7 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
     create_task function and then return the values"""
     values = []
     for i in range(n):
-        values.append(create_task(wait_random(max_delay)))
+        values.append(create_task(task_wait_random(max_delay)))
 
     delays = []
     for task in as_completed(values):
