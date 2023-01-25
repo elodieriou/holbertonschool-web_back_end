@@ -5,7 +5,7 @@ from typing import Generator
 from random import uniform
 
 
-async def async_generator() -> Generator[int, None, None]:
+async def async_generator() -> Generator[float, None, None]:
     """This method generate a coroutine that loop 10 times,
     each time asynchronously wait 1 second and then yield
      a random number"""
