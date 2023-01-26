@@ -8,14 +8,15 @@ class FIFOCache(BaseCaching):
     is the first one to be removed when the cache reaches its maximum
     capacity.
 
-    This method is approprite for situations where the rate of cache
+    This method is appropriate for situations where the rate of cache
     misses is not high and the data being cached is not frequently
     accessed again"""
 
     def put(self, key, item):
         """ Add an item in the cache"""
         if key is not None or item is not None:
-            self.cache_data[key] = [item]
+            self.cache_data[key] = item
+
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             first_in = next(iter(self.cache_data))
             self.cache_data.pop(first_in)
