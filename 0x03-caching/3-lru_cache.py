@@ -16,12 +16,7 @@ class LRUCache(BaseCaching):
         """ Add an item in the cache"""
         if key is not None or item is not None:
             self.cache_data[key] = item
-
-            if key not in self.list_of_keys:
-                self.list_of_keys.append(key)
-            else:
-                self.list_of_keys.remove(key)
-                self.list_of_keys.append(key)
+            self.update_list(key)
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             least_recently = self.list_of_keys[0]
@@ -37,3 +32,11 @@ class LRUCache(BaseCaching):
         self.list_of_keys.remove(key)
         self.list_of_keys.append(key)
         return self.cache_data[key]
+
+    def update_list(self, key):
+        """Update a list"""
+        if key not in self.list_of_keys:
+            self.list_of_keys.append(key)
+        else:
+            self.list_of_keys.remove(key)
+            self.list_of_keys.append(key)
