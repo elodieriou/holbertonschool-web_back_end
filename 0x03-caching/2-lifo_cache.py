@@ -16,7 +16,7 @@ class LIFOCache(BaseCaching):
 
     def put(self, key, item):
         """ Add an item in the cache"""
-        if key is not None or item is not None:
+        if key is not None and item is not None:
             self.cache_data[key] = item
             self.list_of_keys.append(key)
 
