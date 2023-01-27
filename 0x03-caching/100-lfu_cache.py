@@ -28,13 +28,12 @@ class LFUCache(BaseCaching):
 
     def get(self, key):
         """Get an item by key"""
-        if key is None or key not in self.cache_data:
-            return None
-
-        self.update_order.remove(key)
-        self.update_order.append(key)
-        self.frequently_used[key] += 1
-        return self.cache_data[key]
+        if key in self.cache_data:
+            self.update_order.remove(key)
+            self.update_order.append(key)
+            self.frequently_used[key] += 1
+            return self.cache_data[key]
+        return None
 
     def update_list(self, key):
         """Update the lists"""

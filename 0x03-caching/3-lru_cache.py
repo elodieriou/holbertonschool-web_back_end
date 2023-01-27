@@ -26,12 +26,11 @@ class LRUCache(BaseCaching):
 
     def get(self, key):
         """Get an item by key"""
-        if key is None or key not in self.cache_data:
-            return None
-
-        self.list_of_keys.remove(key)
-        self.list_of_keys.append(key)
-        return self.cache_data[key]
+        if key in self.cache_data:
+            self.list_of_keys.remove(key)
+            self.list_of_keys.append(key)
+            return self.cache_data[key]
+        return None
 
     def update_list(self, key):
         """Update a list"""
