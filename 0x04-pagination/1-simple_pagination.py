@@ -33,6 +33,4 @@ class Server:
         start = indexes[0]
         end = indexes[1]
 
-        if start >= len(self.dataset()):
-            return []
-        return self.dataset()[start:end]
+        return [] if start >= len(self.dataset()) else self.dataset()[start:end]
