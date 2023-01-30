@@ -1,5 +1,4 @@
 import csv
-import math
 from typing import List, Dict
 index_range = __import__('0-simple_helper_function').index_range
 
@@ -51,10 +50,12 @@ class Server:
         data = self.get_page(page, page_size)
         indexes = index_range(page, page_size)
         total_page = len(self.dataset())
-        page_size = len(self.get_page(page, page_size))
+        page_size = len(data)
         page = page
         next_page = page + 1 if indexes[1] < total_page else None
         prev_page = page - 1 if page > 1 else None
+
+        print("value of data: {}".format(data))
 
         return {
             'page_size': page_size,
