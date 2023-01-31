@@ -48,12 +48,13 @@ class Server:
         indexed_dataset: Dict[int, List] = self.indexed_dataset()
         data: List[List] = []
 
-        for i in range(start, end):
+        i: int = start
+        while i < end:
             if i not in indexed_dataset:
-                start += 1
                 end += 1
-        for i in range(start, end):
+                i += 1
             data.append(indexed_dataset[i])
+            i += 1
 
         next_index: int = end
 
