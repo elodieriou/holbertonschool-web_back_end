@@ -3,7 +3,6 @@
 Simple pagination
 """
 import csv
-import math
 from typing import List
 index_range = __import__('0-simple_helper_function').index_range
 
@@ -35,5 +34,6 @@ class Server:
         indexes = index_range(page, page_size)
         start = indexes[0]
         end = indexes[1]
+        data = self.dataset()
 
-        return [] if start >= len(self.dataset()) else self.dataset()[start:end]
+        return [] if start >= len(data) else data[start:end]
