@@ -51,10 +51,10 @@ class Server:
         Careful to calculate the data at first, before change the values of
         page and page_size"""
 
-        data = self.get_page(page, page_size)
-        dataset_size = len(self.dataset())
-        total_page = ceil(dataset_size / page_size)
-        page_size = len(data)
+        data: List[List] = self.get_page(page, page_size)
+        dataset_size: int = len(self.dataset())
+        total_page: int = ceil(dataset_size / page_size)
+        page_size: int = len(data)
         next_page: Optional[int] = page + 1 if page < total_page else None
         prev_page: Optional[int] = page - 1 if page > 1 else None
 
