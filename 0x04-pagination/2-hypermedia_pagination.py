@@ -51,16 +51,17 @@ class Server:
         Careful to calculate the data at first, before change the values of
         page and page_size"""
 
-        dataset = self.get_page(page, page_size),
-        total_page = ceil(len(self.dataset()) / page_size)
-        page_size = len(self.get_page(page, page_size))
+        data = self.get_page(page, page_size)
+        dataset_size = len(self.dataset())
+        total_page = ceil(dataset_size / page_size)
+        page_size = len(data)
         next_page: Optional[int] = page + 1 if page < total_page else None
         prev_page: Optional[int] = page - 1 if page > 1 else None
 
         dictionary: Dict[str, Any] = {
             "page_size": page_size,
             "page": page,
-            "data": dataset,
+            "data": data,
             "next_page": next_page,
             "prev_page": prev_page,
             "total_pages": total_page
