@@ -54,8 +54,14 @@ class Server:
         data: List[List] = self.get_page(page, page_size)
         dataset_size: int = len(self.dataset())
         total_page: int = ceil(dataset_size / page_size)
-        next_page: Optional[int] = page + 1 if page < total_page else None
-        prev_page: Optional[int] = page - 1 if page > 1 else None
+        next_page: Optional[int] = page + 1
+        prev_page: Optional[int] = page - 1
+
+        if page > total_page:
+            next_page = None
+
+        if page < 1:
+            prev_page = None
 
         dictionary: Dict[str, Any] = {
             'page_size': len(data),
