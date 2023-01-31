@@ -4,7 +4,7 @@ Hypermedia pagination
 """
 import csv
 from math import ceil
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 index_range = __import__('0-simple_helper_function').index_range
 
 
@@ -54,13 +54,15 @@ class Server:
         data: List[List] = self.get_page(page, page_size)
         dataset_size: int = len(self.dataset())
         total_page: int = ceil(dataset_size / page_size)
+        next_page: Optional[int] = page + 1 if page < total_page else None
+        prev_page: Optional[int] = page - 1 if page > 1 else None
 
         dictionary: Dict[str, Any] = {
             'page_size': len(data),
             'page': page,
             'data': data,
-            'next_page': page + 1 if page < total_page else None,
-            'prev_page': page - 1 if page > 1 else None,
+            'next_page': next_page,
+            'prev_page': prev_page,
             'total_page': total_page
         }
 
