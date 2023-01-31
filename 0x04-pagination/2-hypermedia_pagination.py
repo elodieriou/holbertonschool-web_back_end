@@ -52,14 +52,13 @@ class Server:
         page and page_size"""
 
         data = self.get_page(page, page_size)
-        indexes = index_range(page, page_size)
         dataset_size = len(self.dataset())
 
         dictionary = {
             'page_size': len(data),
             'page': page,
             'data': data,
-            'next_page': page + 1 if indexes[1] < dataset_size else None,
+            'next_page': page + 1 if page < dataset_size else None,
             'prev_page': page - 1 if page > 1 else None,
             'total_page': ceil(dataset_size / page_size)
         }
