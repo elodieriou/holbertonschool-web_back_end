@@ -4,7 +4,8 @@ Hypermedia pagination
 """
 import csv
 from math import ceil
-from typing import List, Dict
+from typing import List
+
 index_range = __import__('0-simple_helper_function').index_range
 
 
@@ -14,6 +15,7 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        ''' Initialize instance. '''
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -28,39 +30,37 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """Return the data at the appropriate page"""
-        assert isinstance(page, int) and page > 0
-        assert isinstance(page_size, int) and page_size > 0
+        ''' Return page of dataset. '''
+        assert isinstance(page, int) and isinstance(page_size, int)
+        assert page > 0 and page_size > 0
 
-        indexes = index_range(page, page_size)
-        start = indexes[0]
-        end = indexes[1]
-        data = self.dataset()
+        indices = index_range(page, page_size)
+        start = indices[0]
+        end = indices[1]
 
-        return [] if start >= len(data) else data[start:end]
+        try:
+            return self.dataset()[start:end]
+        except IndexError:
+            return []
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
-        """Return a dictionary with the following values:
-        - page_size: number elements in the page
-        - page: number of the current page
-        - data: data between [star:end]
-        - next_page: number of the next page
-        - prev_page: number of the prev page
-        - total_page: total number of pages
-        And calculate indexes to know the start and end.
-        Careful to calculate the data at first, before change the values of
-        page and page_size"""
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+        ''' Return dict of pagination data.
+            Dict key/value pairs consist of the following:
+                page_size - length of dataset page
+                page - current page number
+                data - dataset page
+                next_page - number of next page if there is one
+                prev_page - number of previous page if there is one
+                total_pages - total number of pages '''
+        page_data = self.get_page(page, page_size)
+        total_data = len(self.dataset())
+        total_pages = ceil(total_data / page_size)
 
-        data = self.get_page(page, page_size)
-        dataset_size = len(self.dataset())
-
-        dictionary = {
-            'page_size': len(data),
+        return {
+            'page_size': len(page_data),
             'page': page,
-            'data': data,
-            'next_page': page + 1 if page < dataset_size else None,
-            'prev_page': page - 1 if page > 1 else None,
-            'total_page': ceil(dataset_size / page_size)
+            'data': page_data,
+            'next_page': page + 1 if page < total_pages else None,
+            'prev_page': page - 1 if page != 1 else None,
+            'total_pages': total_pages
         }
-
-        return dictionary
