@@ -27,17 +27,16 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """Indexes to paginate the dataset correctly and returns  the
-        appropriate page of the dataset"""
-
+        """Return the data at the appropriate page"""
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
         indexes = index_range(page, page_size)
         start = indexes[0]
         end = indexes[1]
+        data = self.dataset()
 
-        return [] if start >= len(self.dataset()) else self.dataset()[start:end]
+        return [] if start >= len(data) else data[start:end]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """Return a dictionary with the following values:
