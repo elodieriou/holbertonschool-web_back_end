@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""
+Hypermedia pagination
+"""
 import csv
 from typing import List, Dict
 index_range = __import__('0-simple_helper_function').index_range
