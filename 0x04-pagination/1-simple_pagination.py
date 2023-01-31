@@ -3,7 +3,7 @@
 Simple pagination
 """
 import csv
-from typing import List
+from typing import List, Tuple
 index_range = __import__('0-simple_helper_function').index_range
 
 
@@ -31,9 +31,9 @@ class Server:
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
-        indexes = index_range(page, page_size)
-        start = indexes[0]
-        end = indexes[1]
-        data = self.dataset()
+        indexes: Tuple[int, int] = index_range(page, page_size)
+        start: int = indexes[0]
+        end: int = indexes[1]
+        data: List[List] = self.dataset()
 
-        return [] if start >= len(data) else data[start:end]
+        return data[start:end]
