@@ -3,6 +3,7 @@
 Hypermedia pagination
 """
 import csv
+from math import ceil
 from typing import List, Dict
 index_range = __import__('0-simple_helper_function').index_range
 
@@ -60,7 +61,7 @@ class Server:
             'data': data,
             'next_page': page + 1 if indexes[1] < dataset_size else None,
             'prev_page': page - 1 if page > 1 else None,
-            'total_page': dataset_size
+            'total_page': ceil(dataset_size / page_size)
         }
 
         return dictionary
