@@ -4,7 +4,7 @@ Hypermedia pagination
 """
 import csv
 from math import ceil
-from typing import List, Dict
+from typing import List, Dict, Any, Tuple
 index_range = __import__('0-simple_helper_function').index_range
 
 
@@ -32,14 +32,14 @@ class Server:
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
-        indexes = index_range(page, page_size)
-        start = indexes[0]
-        end = indexes[1]
-        data = self.dataset()
+        indexes: Tuple[int, int] = index_range(page, page_size)
+        start: int = indexes[0]
+        end: int = indexes[1]
+        data: List[List] = self.dataset()
 
-        return [] if start >= len(data) else data[start:end]
+        return data[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """Return a dictionary with the following values:
         - page_size: number elements in the page
         - page: number of the current page
@@ -55,7 +55,7 @@ class Server:
         dataset_size: int = len(self.dataset())
         total_page: int = ceil(dataset_size / page_size)
 
-        dictionary = {
+        dictionary: Dict[str, Any] = {
             'page_size': len(data),
             'page': page,
             'data': data,
