@@ -5,14 +5,7 @@ Hypermedia pagination
 import csv
 from math import ceil
 from typing import List, Dict, Any, Tuple, Optional
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """This function returns a tuple of the start index and an end index
-    corresponding to the range of indexes"""
-    start: int = (page - 1) * page_size
-    end: int = start + page_size
-    return start, end
+index_range = __import__('0-simple_helper_function').index_range
 
 
 class Server:
@@ -58,19 +51,19 @@ class Server:
         Careful to calculate the data at first, before change the values of
         page and page_size"""
 
-        data: List[List] = self.get_page(page, page_size)
-        dataset_size: int = len(self.dataset())
-        total_page: int = ceil(dataset_size / page_size)
+        dataset = self.get_page(page, page_size),
+        total_page = ceil(len(self.dataset()) / page_size)
+        page_size = len(self.get_page(page, page_size))
         next_page: Optional[int] = page + 1 if page < total_page else None
         prev_page: Optional[int] = page - 1 if page > 1 else None
 
         dictionary: Dict[str, Any] = {
-            'page_size': len(data),
-            'page': page,
-            'data': data,
-            'next_page': next_page,
-            'prev_page': prev_page,
-            'total_page': total_page
+            "page_size": page_size,
+            "page": page,
+            "data": dataset,
+            "next_page": next_page,
+            "prev_page": prev_page,
+            "total_pages": total_page
         }
 
         return dictionary
