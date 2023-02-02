@@ -103,12 +103,12 @@ def main() -> None:
     cursor.execute("SELECT * FROM users;")
     rows = cursor.fetchall()
 
-    for column in rows:
+    for row in rows:
         message = "name={}; email={}; phone={}; ssn={}; password={}; \
-        ip={}; last_login={}; user_agent={};".format(column[0], column[1],
-                                                     column[2], column[3],
-                                                     column[4], column[5],
-                                                     column[6], column[7])
+        ip={}; last_login={}; user_agent={};".format(row[0], row[1],
+                                                     row[2], row[3],
+                                                     row[4], row[5],
+                                                     row[6], row[7])
         logger.info(message)
 
     cursor.close()
