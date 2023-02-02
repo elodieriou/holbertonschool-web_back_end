@@ -2,7 +2,7 @@
 """
 This module defines the hash_password function
 """
-from bcrypt import hashpw, gensalt
+import bcrypt
 
 
 def hash_password(password: str) -> bytes:
@@ -13,7 +13,7 @@ def hash_password(password: str) -> bytes:
     - Hash the password in byte string and add the salt before
     """
     convert = password.encode('utf-8')
-    salt = gensalt()
-    hashed_password = hashpw(convert, salt)
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(convert, salt)
 
     return hashed_password
