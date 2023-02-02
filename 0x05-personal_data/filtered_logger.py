@@ -2,10 +2,11 @@
 """
 Regex-ing
 """
-from typing import List, Tuple
-import re
 import logging
-
+import re
+from typing import List, Tuple
+from mysql.connector import connection
+from os import getenv
 
 PII_FIELDS: Tuple = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -36,7 +37,7 @@ class RedactingFormatter(logging.Formatter):
         """Filter values in incoming log records using filter_datum method"""
         message_format = filter_datum(self.fields,
                                       RedactingFormatter.REDACTION,
-                                      super(RedactingFormatter, self).format(record),
+                                      super().format(record),
                                       RedactingFormatter.SEPARATOR)
         return message_format
 
@@ -61,3 +62,16 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
 
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """Connect to secure database"""
+
+    connexion = connection.MySQLConnection(
+        host=getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=getenv('PERSONAL_DATA_DB_NAME'),
+        user=getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        password=getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    )
+
+    return connexion
