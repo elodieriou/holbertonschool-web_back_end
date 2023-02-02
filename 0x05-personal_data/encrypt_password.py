@@ -12,8 +12,8 @@ def hash_password(password: str) -> bytes:
      before hashing
     - Hash the password in byte string and add the salt before
     """
-    bytes = password.encode('utf-8')
+    convert = password.encode('utf-8')
     salt = gensalt()
-    hashed_password = hashpw(bytes, salt)
+    hashed_password = hashpw(convert, salt)
 
     return hashed_password
