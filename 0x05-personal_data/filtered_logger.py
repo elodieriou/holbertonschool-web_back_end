@@ -54,8 +54,7 @@ def get_logger() -> logging.Logger:
     Return the logger object
     """
 
-    logger = logging.getLogger()
-    logger.name = 'user_name'
+    logger = logging.getLogger('user_name')
     logger.setLevel(logging.INFO)
     logger.propagate = False
 
