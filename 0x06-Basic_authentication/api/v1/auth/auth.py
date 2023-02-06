@@ -30,15 +30,18 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
+        """ This method return the value of the header request
+        :param request: the route requested
+        :return: None or the header of the request
         """
-        :param request:
-        :return:
-        """
-        return request
+        if request is None:
+            return None
+
+        return request.headers.get('Authorization', None)
 
     def current_user(self, request=None) -> User:
         """
         :param request:
         :return:
         """
-        return request
+        return None
