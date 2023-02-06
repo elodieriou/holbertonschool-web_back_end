@@ -15,12 +15,19 @@ class Auth:
     User = TypeVar('User')
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        """ This method checks if path require authentication
+        :param path: the route check
+        :param excluded_paths: list of route
+        :return: True or False if the route check require authentication
         """
-        :param path:
-        :param excluded_paths:
-        :return:
-        """
-        return False
+        if path is None or excluded_paths is None or excluded_paths is []:
+            return True
+
+        for excluded_path in excluded_paths:
+            if path.startswith(excluded_path) or path + '/' == excluded_path:
+                return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
