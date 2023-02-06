@@ -10,7 +10,14 @@ from models.user import User
 class BasicAuth(Auth):
     """Class BasicAuth defines the following methods:
     - extract_base64_authorization_header: returns the Base64 part of
-     the Authorization header for a Basic Authentication
+    the Authorization header for a Basic Authentication
+    - decode_base64_authorization_header: returns the decoded value of
+    a Base64 string
+    - extract_user_credentials: returns the user email and password from
+    the Base64
+    - user_object_from_credentials: returns the User instance based on his
+    email and password
+    - current_user: retrieves the User instance for a request
     """
 
     def extract_base64_authorization_header(self,
