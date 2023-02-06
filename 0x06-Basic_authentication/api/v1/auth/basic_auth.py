@@ -2,6 +2,7 @@
 """ Module of Basic Authentication
 """
 from api.v1.auth.auth import Auth
+from base64 import b64decode
 
 
 class BasicAuth(Auth):
@@ -26,3 +27,20 @@ class BasicAuth(Auth):
             return None
 
         return authorization_header.split("Basic ")[1]
+
+    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+        """ This method returns the decoded value of a Base64 string
+        :param base64_authorization_header:
+        :return: None or decode base64 string if it is a Basic Authentication
+        """
+
+        if base64_authorization_header is None:
+            return None
+
+        if not isinstance(base64_authorization_header, str):
+            return None
+
+        try:
+            return b64decode(base64_authorization_header).decode('utf-8')
+        except:
+            return None
