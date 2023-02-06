@@ -3,7 +3,8 @@
 """
 from api.v1.auth.auth import Auth
 from base64 import b64decode
-
+from typing import List, TypeVar
+from models.user import User
 
 class BasicAuth(Auth):
     """Class BasicAuth defines the following methods:
@@ -57,8 +58,32 @@ class BasicAuth(Auth):
         if not isinstance(decoded_base64_authorization_header, str):
             return None, None
 
-        match = decoded_base64_authorization_header.split(':')
+        match: List = decoded_base64_authorization_header.split(':')
         if len(match) != 2:
             return None, None
 
         return match[0], match[1]
+
+    def user_object_from_credentials(self, user_email: str, user_pwd: str) ->TypeVar('User'):
+        """ This method returns the User instance based on his email and password
+        :param user_email: the email of the user
+        :param user_pwd: the password of the user
+        :return: None or User instance
+        """
+
+        if user_email is None or not isinstance(user_email, str):
+            return None
+
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+
+        users: List = User.search({"email": user_email})
+        if not users:
+            return None
+
+        for user in users:
+            check: bool = user.is_valid_password(user_pwd)
+            if check:
+                return user
+
+        return None
