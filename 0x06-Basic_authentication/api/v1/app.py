@@ -53,7 +53,8 @@ def before_request() -> str:
                       '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
 
-    if not auth.require_auth(path=request.path, excluded_paths=excluded_paths):
+    if not auth.require_auth(path=request.path,
+                             excluded_paths=excluded_paths):
         return
 
     if auth.authorization_header(request=request) is None:
