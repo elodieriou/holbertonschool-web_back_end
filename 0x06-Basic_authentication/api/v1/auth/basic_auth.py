@@ -63,8 +63,8 @@ class BasicAuth(Auth):
             -> (str, str):
         """ This method returns the user email and password from the Base64
         decode value
-        :param decoded_base64_authorization_header:
-        :return:
+        :param decoded_base64_authorization_header: the header decode
+        :return: None or the email and password
         """
 
         if decoded_base64_authorization_header is None:
@@ -73,7 +73,7 @@ class BasicAuth(Auth):
         if not isinstance(decoded_base64_authorization_header, str):
             return None, None
 
-        match: List = decoded_base64_authorization_header.split(':')
+        match: List = decoded_base64_authorization_header.split(':', 1)
         if len(match) != 2:
             return None, None
 
