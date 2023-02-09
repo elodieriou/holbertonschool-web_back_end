@@ -28,11 +28,8 @@ def login() -> str:
     if password == "" or not password:
         return jsonify({"error": "password missing"}), 400
 
-    try:
-        users: List = User.search({'email': email})
-        if not users:
-            return jsonify({"error": "no user found for this email"}), 404
-    except Exception:
+    users: List = User.search({'email': email})
+    if not users:
         return jsonify({"error": "no user found for this email"}), 404
 
     for user in users:
