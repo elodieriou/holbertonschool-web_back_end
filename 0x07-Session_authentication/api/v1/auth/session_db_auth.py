@@ -21,7 +21,7 @@ class SessionDBAuth(SessionExpAuth):
 
         user_session = UserSession(user_id=user_id,
                                    session_id=session_id)
-        user_session.save_to_file()
+        user_session.save()
 
         return session_id
 
