@@ -3,6 +3,7 @@
 """
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from models.user_session import UserSession
+from datetime import timedelta, datetime
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -32,19 +33,25 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None:
             return None
 
-        # Retrieve all object from db_UserSession.json
-        UserSession.load_from_file()
+        try:
+            user_session = UserSession.search({'session_id': session_id})
+            if not user_session:
+                return None
+        except Exception:
+            return None
 
-        # Search the UserSession based on the session_id
-        user_session = UserSession.search(
-            {'session_id': session_id}
-        )
-
-        # Select the first user (only one user store)
         user = user_session[0]
-
-        # Retrieve the user_id
         user_id = user.user_id
+
+        created_at = user.created_at
+        if created_at is None:
+            return None
+
+        session_duration = timedelta(seconds=self.session_duration)
+        delay_expiration = created_at + session_duration
+
+        if delay_expiration < datetime.utcnow():
+            return None
 
         return user_id
 
@@ -55,27 +62,20 @@ class SessionDBAuth(SessionExpAuth):
         if request is None:
             return False
 
-        # Retrieve session_id from the request cookie
         session_id = self.session_cookie(request)
         if session_id is None:
             return False
 
-        # Retrieve user_id from session_id
         user_id = self.user_id_for_session_id(session_id)
         if not user_id:
             return False
 
-        # Search the user from session_id
         user_session = UserSession.search(
             {'session_id': session_id}
         )
 
         user = user_session[0]
-
-        try:
-            user.remove()
-            user.save_to_file()
-        except Exception:
-            return False
+        user.remove()
+        user.save_to_file()
 
         return True
