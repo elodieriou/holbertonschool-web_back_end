@@ -55,7 +55,7 @@ def login() -> str:
 def logout() -> str:
     """ DELETE /api/v1/auth_session/logout/
     Return:
-      - empty JSON is the User has been correctly deleted
+      - empty JSON is the Session has been correctly deleted
       - 404 if session doesn't exist
     """
     from api.v1.app import auth

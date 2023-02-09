@@ -8,6 +8,10 @@ from models.user import User
 
 class SessionAuth(Auth):
     """Class SessionAuth defines the followings methods:
+        - create_session
+        - user_id_for_session_id
+        - current_user
+        - destroy_session
     """
 
     user_id_by_session_id = {}
