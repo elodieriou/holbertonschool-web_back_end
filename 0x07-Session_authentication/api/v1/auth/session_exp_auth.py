@@ -15,9 +15,8 @@ class SessionExpAuth(SessionAuth):
     def __init__(self):
         """ Overload for assign an instance attribute session_duration
         """
-        session_duration: str = getenv("SESSION_DURATION")
         try:
-            session_duration: int = int(session_duration)
+            session_duration: int = int(getenv("SESSION_DURATION"))
         except Exception:
             session_duration = 0
 
