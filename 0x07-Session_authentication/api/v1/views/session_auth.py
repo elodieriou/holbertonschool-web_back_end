@@ -2,7 +2,7 @@
 """ Module of Sessions views
 """
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from typing import List
 from models.user import User
 from os import getenv
@@ -50,3 +50,21 @@ def login() -> str:
     response.set_cookie(cookie_name, session_id)
 
     return response
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'],
+                 strict_slashes=False)
+def logout() -> str:
+    """ DELETE /api/v1/auth_session/logout/
+    Return:
+      - empty JSON is the User has been correctly deleted
+      - 404 if session doesn't exist
+    """
+    from api.v1.app import auth
+
+    exist_session = auth.destroy_session(request)
+    if not exist_session:
+        abort(404)
+
+    return jsonify({}), 200
