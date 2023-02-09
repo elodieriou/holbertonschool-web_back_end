@@ -21,7 +21,7 @@ class SessionDBAuth(SessionExpAuth):
 
         user_session = UserSession(user_id=user_id,
                                    session_id=session_id)
-        user_session.save()
+        user_session.save_to_file()
 
         return session_id
 
@@ -72,6 +72,6 @@ class SessionDBAuth(SessionExpAuth):
 
         user = user_session[0]
         user.remove()
-        user.save()
+        user.save_to_file()
 
         return True
