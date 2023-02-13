@@ -58,3 +58,19 @@ class DB:
             raise NoResultFound
 
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Update a User by its ID
+        :param user_id: the user ID
+        :param kwargs: arbitrary keyword arguments
+        :return: None
+        """
+        try:
+            user = self.find_user_by(id=user_id)
+            for name, value in kwargs.items():
+                if hasattr(user, name):
+                    setattr(user, name, value)
+        except ValueError:
+            raise ValueError
+
+        self._session.commit()
