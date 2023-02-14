@@ -38,7 +38,7 @@ class DB:
         :param hashed_password: the user password (requirement)
         :return: A User Object
         """
-        user = User(email=email, hashed_password=hashed_password)
+        user: User = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
 
@@ -50,7 +50,7 @@ class DB:
         :return: The first row found in the users table
         """
         try:
-            user = self._session.query(User).filter_by(**kwargs).first()
+            user: Type[User] = self._session.query(User).filter_by(**kwargs).first()
         except InvalidRequestError:
             raise InvalidRequestError
 
@@ -66,7 +66,7 @@ class DB:
         :return: None
         """
         try:
-            user = self.find_user_by(id=user_id)
+            user: Type[User] = self.find_user_by(id=user_id)
             for name, value in kwargs.items():
                 if hasattr(user, name):
                     setattr(user, name, value)
