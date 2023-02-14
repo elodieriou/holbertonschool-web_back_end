@@ -2,9 +2,8 @@
 """
 Route module for the API
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
-
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -32,20 +31,35 @@ def users() -> str:
 @app.route("/sessions", methods=['POST'], strict_slashes=False)
 def login() -> str:
     """ POST /sessions """
-    try:
-        email: str = request.form.get('email')
-        password: str = request.form.get('password')
-    except Exception:
+    email: str = request.form.get('email')
+    password: str = request.form.get('password')
+    if not email or not password:
         return abort(401)
 
     check_password: bool = AUTH.valid_login(email=email, password=password)
-    if check_password:
-        session_id: str = AUTH.create_session(email=email)
-        response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie("session_id", session_id)
-        return response
-    else:
+    if not check_password:
         abort(401)
+
+    session_id: str = AUTH.create_session(email=email)
+    response = jsonify({"email": email, "message": "logged in"})
+    response.set_cookie("session_id", session_id)
+    return response
+
+
+@app.route("/sessions", methods=['DELETE'], strict_slashes=False)
+def logout():
+    """ DELETE /sessions """
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
+
+    try:
+        user = AUTH.get_user_from_session_id(session_id)
+        AUTH.destroy_session(user_id=user.id)
+    except Exception:
+        return abort(403)
+
+    return redirect("/", 301)
 
 
 if __name__ == "__main__":
