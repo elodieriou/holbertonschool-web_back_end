@@ -2,7 +2,7 @@
 """
 Route module for the API
 """
-from flask import Flask, jsonify, request, abort, redirect
+from flask import Flask, jsonify, request, abort, redirect, make_response
 from auth import Auth
 
 app = Flask(__name__)
@@ -56,10 +56,9 @@ def logout():
     try:
         user = AUTH.get_user_from_session_id(session_id)
         AUTH.destroy_session(user_id=user.id)
+        return make_response(redirect("/", 301))
     except Exception:
         return abort(403)
-
-    return redirect("/", 301)
 
 
 @app.route("/profile", methods=['GET'], strict_slashes=False)
@@ -71,11 +70,44 @@ def profile() -> str:
     if not session_id:
         abort(403)
 
-    user = AUTH.get_user_from_session_id(session_id)
-    if user is None:
+    try:
+        user = AUTH.get_user_from_session_id(session_id)
+        return jsonify({"email": user.email}), 200
+    except Exception:
         abort(403)
 
-    return jsonify({"email": user.email}), 200
+
+@app.route("/reset_password", methods=['POST'], strict_slashes=False)
+def get_reset_password_token() -> str:
+    """ POST /reset_password
+    """
+    email: str = request.form.get("email")
+    if not email:
+        abort(403)
+
+    try:
+        token: str = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token}), 200
+    except Exception:
+        abort(403)
+
+
+@app.route("/reset_password", methods=['PUT'], strict_slashes=False)
+def update_password() -> str:
+    """ PUT /reset_password
+    """
+    email: str = request.form.get("email")
+    token: str = request.form.get("reset_token")
+    password: str = request.form.get("new_password")
+    if not email or not token or not password:
+        print("Là")
+        abort(403)
+
+    try:
+        AUTH.update_password(token, password)
+        return jsonify({"email": email, "message": "Password updated"}), 200
+    except Exception:
+        abort(403)
 
 
 if __name__ == "__main__":
