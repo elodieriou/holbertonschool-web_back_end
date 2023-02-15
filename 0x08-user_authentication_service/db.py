@@ -63,5 +63,5 @@ class DB:
             else:
                 setattr(user, name, value)
 
-        # quid to self._session.add(user)
+        self._session.add(user)
         self._session.commit()
