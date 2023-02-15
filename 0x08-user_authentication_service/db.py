@@ -8,7 +8,6 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 from user import Base, User
-from typing import Type
 
 
 class DB:
@@ -35,22 +34,19 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """ Create a User
         """
-        user: User = User()
-        user.email = email
-        user.hashed_password = hashed_password
-
+        user: User = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
 
         return user
 
-    def find_user_by(self, **kwargs) -> Type[User]:
+    def find_user_by(self, **kwargs) -> User:
         """ Find a User by its ID
         :param kwargs: arbitrary keyword arguments
         :return: The first row found in the users table
         """
         try:
-            user: Type[User] = self._session.query(User).filter_by(**kwargs).first()
+            user: User = self._session.query(User).filter_by(**kwargs).first()
         except InvalidRequestError:
             raise InvalidRequestError
 
@@ -66,7 +62,7 @@ class DB:
         :return: None
         """
         try:
-            user: Type[User] = self.find_user_by(id=user_id)
+            user: User = self.find_user_by(id=user_id)
             for name, value in kwargs.items():
                 if hasattr(user, name):
                     setattr(user, name, value)
