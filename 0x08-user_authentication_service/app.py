@@ -100,7 +100,6 @@ def update_password() -> str:
     token: str = request.form.get("reset_token")
     password: str = request.form.get("new_password")
     if not email or not token or not password:
-        print("Là")
         abort(403)
 
     try:
