@@ -42,8 +42,6 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """ Find a User by its ID
-        :param kwargs: arbitrary keyword arguments
-        :return: The first row found in the users table
         """
         try:
             user: User = self._session.query(User).filter_by(**kwargs).first()
@@ -57,9 +55,6 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """ Update a User by its ID
-        :param user_id: the user ID
-        :param kwargs: arbitrary keyword arguments
-        :return: None
         """
         try:
             user: User = self.find_user_by(id=user_id)
