@@ -38,8 +38,7 @@ class Auth:
         """
         try:
             user: User = self._db.find_user_by(email=email)
-            if user is not None:
-                raise ValueError("User {} already exists".format(user.email))
+            raise ValueError("User {} already exists".format(user.email))
         except NoResultFound:
             decode_password: str = _hash_password(password).decode()
             new_user: User = self._db.add_user(email, decode_password)
