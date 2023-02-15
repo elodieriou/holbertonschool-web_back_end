@@ -5,7 +5,6 @@ import bcrypt
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
-from typing import Type
 from uuid import uuid4
 
 
@@ -38,7 +37,7 @@ class Auth:
         """ Register a user
         """
         try:
-            user: Type[User] = self._db.find_user_by(email=email)
+            user: User = self._db.find_user_by(email=email)
             if user is not None:
                 raise ValueError("User {} already exists".format(user.email))
         except NoResultFound:
@@ -50,7 +49,7 @@ class Auth:
         """ Check password
         """
         try:
-            user: Type[User] = self._db.find_user_by(email=email)
+            user: User = self._db.find_user_by(email=email)
         except NoResultFound:
             return False
 
@@ -62,7 +61,7 @@ class Auth:
         """ Create session
         """
         try:
-            user: Type[User] = self._db.find_user_by(email=email)
+            user: User = self._db.find_user_by(email=email)
         except NoResultFound:
             return None
 
@@ -70,14 +69,14 @@ class Auth:
         self._db.update_user(user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> Type[User]:
+    def get_user_from_session_id(self, session_id: str) -> User:
         """ Find user thanks its session_id
         """
         if session_id is None:
             return None
 
         try:
-            user: Type[User] = self._db.find_user_by(session_id=session_id)
+            user: User = self._db.find_user_by(session_id=session_id)
         except NoResultFound:
             return None
 
@@ -90,7 +89,7 @@ class Auth:
             return None
 
         try:
-            user: Type[User] = self._db.find_user_by(id=user_id)
+            user: User = self._db.find_user_by(id=user_id)
         except NoResultFound:
             return None
 
@@ -103,9 +102,19 @@ class Auth:
             return None
 
         try:
-            user: Type[User] = self._db.find_user_by(email=email)
+            user: User = self._db.find_user_by(email=email)
             token: str = _generate_uuid()
             self._db.update_user(user.id, token=token)
             return token
         except Exception:
+            raise ValueError
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """ Update password
+        """
+        try:
+            user: User = self._db.find_user_by(reset_token=reset_token)
+            hash_pwd = _hash_password(password)
+            self._db.update_user(user.id, hashed_password=hash_pwd, reset_token=None)
+        except ValueError:
             raise ValueError
