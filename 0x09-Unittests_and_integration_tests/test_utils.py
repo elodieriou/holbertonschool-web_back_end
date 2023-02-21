@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Module test """
+""" Module test utils """
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map, get_json, memoize
@@ -43,14 +43,14 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch("requests.get")
-    def test_get_json(self, test_url: str, test_payload: Dict,
+    def test_get_json(self, test_url: str, expected_result: Any,
                       mock_get) -> None:
         """ Test expected result """
-        mock_json = Mock(return_value=test_payload)
+        mock_json = Mock(return_value=expected_result)
         mock_get.return_value = Mock(json=mock_json)
 
         result = get_json(url=test_url)
-        self.assertEqual(result, test_payload)
+        self.assertEqual(result, expected_result)
         self.assertIsInstance(mock_get.return_value, Mock)
 
 
