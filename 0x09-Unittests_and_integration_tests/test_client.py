@@ -3,8 +3,8 @@
 import unittest
 from parameterized import parameterized
 from client import GithubOrgClient
-from unittest.mock import patch, Mock, PropertyMock
-from typing import Any
+from unittest.mock import patch, PropertyMock
+from typing import Dict
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -36,11 +36,11 @@ class TestGithubOrgClient(unittest.TestCase):
 
     @patch('client.get_json')
     def test_public_repos(self, mock_get) -> None:
-        """ Test public_repos """
+        """ Test public_repos method """
         mock_get.return_value = [{'name': 'Google'}]
 
         mock_obj = 'client.GithubOrgClient._public_repos_url'
-        mock_value = "Google"
+        mock_value = "https://api.github.com/orgs/google"
 
         with patch(mock_obj,
                    new_callable=PropertyMock,
@@ -49,3 +49,13 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(result, ['Google'])
             mock_get.assert_called_once()
             mock_public_repos.assert_called_once()
+
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False)
+    ])
+    def test_has_license(self, repo: Dict[str, Dict],
+                         license_key: str, expected_value) -> None:
+        """ Test has_license method """
+        result = GithubOrgClient.has_license(repo=repo, license_key=license_key)
+        self.assertEqual(result, expected_value)
