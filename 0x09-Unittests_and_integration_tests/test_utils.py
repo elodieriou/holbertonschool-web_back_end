@@ -20,7 +20,7 @@ class TestAccessNestedMap(unittest.TestCase):
                                path: Sequence,
                                expected_result: Any) -> None:
         """ Test expected result"""
-        result: Any = access_nested_map(nested_map=nested_map, path=path)
+        result = access_nested_map(nested_map=nested_map, path=path)
         self.assertEqual(result, expected_result)
 
     @parameterized.expand([
@@ -43,7 +43,8 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch("requests.get")
-    def test_get_json(self, test_url: str, test_payload: Dict, mock_get) -> None:
+    def test_get_json(self, test_url: str, test_payload: Dict,
+                      mock_get) -> None:
         """ Test expected result """
         mock_json = Mock(return_value=test_payload)
         mock_get.return_value = Mock(json=mock_json)
@@ -69,7 +70,8 @@ class TestMemoize(unittest.TestCase):
                 return self.a_method()
 
         mock_obj = TestClass
-        with patch.object(mock_obj, 'a_method', return_value=42) as mock_a_method:
+        with patch.object(mock_obj, 'a_method', return_value=42) \
+                as mock_a_method:
             result = TestClass().a_property
             self.assertEqual(result, mock_a_method.return_value)
             self.assertEqual(result, mock_a_method.return_value)
