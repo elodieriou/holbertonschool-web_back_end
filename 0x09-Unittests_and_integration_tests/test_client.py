@@ -73,20 +73,19 @@ class TestGithubOrgClient(unittest.TestCase):
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """ Integration test github_org_client """
 
+    @classmethod
     def setupClass(cls):
         """ Class call before tests and Start a patcher """
         cls.get_patcher = patch('requests.get')
         cls.mock_get = cls.get_patcher.start()
 
         mock_org = Mock(return_value=cls.org_payload)
-        mock_org.json = mock_org
-
         mock_repos = Mock(return_value=cls.repos_payload)
-        mock_repos.json = mock_repos
 
         my_side_effect = [mock_org, mock_repos]
         cls.mock_get.side_effect = my_side_effect
 
+    @classmethod
     def tearDownClass(cls):
         """ Class call after tests and Close the patcher"""
         cls.get_patcher.stop()
