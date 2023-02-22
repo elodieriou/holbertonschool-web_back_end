@@ -79,12 +79,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.mock_get = cls.get_patcher.start()
 
         mock_org = Mock(return_value=cls.org_payload)
-        mock_org.return_value = Mock(json=mock_org)
+        mock_repos = Mock(return_value=cls.repos_payload)
 
-        mock_repo = Mock(return_value=cls.repos_payload)
-        mock_repo.return_value = Mock(json=mock_repo)
-
-        my_side_effect = [mock_org, mock_repo]
+        my_side_effect = [mock_org, mock_repos]
         cls.mock_get.side_effect = my_side_effect
 
     def tearDownClass(cls):
