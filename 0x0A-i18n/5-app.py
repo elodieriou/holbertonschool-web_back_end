@@ -15,7 +15,7 @@ users = {
 }
 
 
-class Config(object):
+class Config:
     """ Supported languages list """
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
