@@ -2,7 +2,7 @@
 """ Flask app """
 from flask import Flask, render_template, request
 from flask_babel import Babel
-from typing import List, Optional
+from typing import Any, Optional
 
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def welcome() -> str:
 
 
 @babel.localeselector
-def get_local() -> Optional[List]:
+def get_local() -> Optional[Any]:
     """ Use the locale language """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
