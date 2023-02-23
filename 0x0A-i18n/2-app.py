@@ -2,7 +2,7 @@
 """ Flask app """
 from flask import Flask, render_template, request
 from flask_babel import Babel
-from typing import Any, Optional
+from typing import List
 
 
 app = Flask(__name__)
@@ -20,13 +20,13 @@ app.config.from_object(Config)
 
 
 @babel.localeselector
-def get_local() -> Optional[Any]:
+def get_local() -> List:
     """ Use the locale language """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route("/", methods=['GET'])
-def welcome() -> Optional[Any]:
+def welcome():
     """ Message of Welcome """
     return render_template('2-index.html')
 
