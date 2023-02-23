@@ -26,7 +26,7 @@ def get_local() -> Optional[Any]:
 
 
 @app.route("/", methods=['GET'])
-def welcome() -> str:
+def welcome():
     """ Message of Welcome """
     return render_template('2-index.html')
 
