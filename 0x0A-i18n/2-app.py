@@ -19,16 +19,16 @@ class Config(object):
 app.config.from_object(Config)
 
 
-@app.route("/", methods=['GET'])
-def welcome() -> str:
-    """ Message of Welcome """
-    return render_template('2-index.html')
-
-
 @babel.localeselector
 def get_local() -> Optional[Any]:
     """ Use the locale language """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
+@app.route("/", methods=['GET'])
+def welcome() -> str:
+    """ Message of Welcome """
+    return render_template('2-index.html')
 
 
 if __name__ == "__main__":
