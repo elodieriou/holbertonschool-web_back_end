@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ Flask app """
+import pytz
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
 from typing import Dict
@@ -29,12 +30,12 @@ app.config.from_object(Config)
 def get_locale() -> str:
     """ Use the locale language """
     languages = app.config['LANGUAGES']
-    locale = request.args.get('locale')
-
-    if locale and locale in languages:
-        return locale
 
     try:
+        locale = request.args.get('locale')
+        if locale and locale in languages:
+            return locale
+
         user_locale = g.user['locale']
         if user_locale and user_locale in languages:
             return user_locale
