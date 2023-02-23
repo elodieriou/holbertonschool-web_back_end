@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask app """
 from flask import Flask, render_template, request
-from flask_babel import Babel, get_locale
+from flask_babel import Babel
 from typing import List
 
 
@@ -22,13 +22,13 @@ app.config.from_object(Config)
 @app.route("/", methods=['GET'])
 def welcome() -> str:
     """ Message of Welcome """
-    return render_template('1-index.html')
+    return render_template('2-index.html')
 
 
 @babel.localeselector
 def get_local() -> List:
     """ Use the locale language """
-    return request.accept_languages.best_match(Config.LANGUAGES)
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 if __name__ == "__main__":
