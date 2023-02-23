@@ -15,7 +15,7 @@ users = {
 }
 
 
-class Config:
+class Config(object):
     """ Supported languages list """
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
@@ -35,7 +35,7 @@ def get_locale() -> str:
 
 
 @app.before_request
-def before_request() -> None:
+def before_request():
     user = get_user()
     if user:
         g.user = user
