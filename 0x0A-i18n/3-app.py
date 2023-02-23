@@ -20,13 +20,13 @@ app.config.from_object(Config)
 
 
 @babel.localeselector
-def get_local() -> Optional[Any]:
+def get_locale() -> Optional[Any]:
     """ Use the locale language """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route("/", methods=['GET'])
-def welcome():
+def welcome() -> Optional[Any]:
     """ Message of Welcome """
     return render_template('3-index.html')
 
