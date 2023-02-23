@@ -35,7 +35,7 @@ def get_locale() -> str:
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     user = get_user()
     if user:
         g.user = user
