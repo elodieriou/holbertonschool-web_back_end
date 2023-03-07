@@ -27,11 +27,11 @@ class Cache:
         if not key:
             return None
 
-        if fn is None:
-            return self._redis.get(key)
-        else:
+        if fn is not None:
             data = self._redis.get(key)
             return fn(data)
+
+        return self._redis.get(key)
 
     def get_str(self, key: str) -> str:
         """ Get data and convert it to str """
