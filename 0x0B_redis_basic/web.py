@@ -15,12 +15,11 @@ def tracker(method: Callable) -> Callable:
         """ Wrapper method """
         key = f'count:{url}'
         r.incr(key)
-        cache = r.get(url)
-        if cache:
-            return cache.decode('utf-8')
+        r.get(key)
 
+        res = method(url)
         r.expire(key, 10)
-        return method(url)
+        return res
 
     return wrapper
 
