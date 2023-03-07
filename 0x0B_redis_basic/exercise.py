@@ -37,7 +37,7 @@ class Cache:
     def get_int(self, data: str) -> int:
         """ Get data and convert it to int """
         try:
-            data = int(data)
+            data = int(data.decode("utf-8"))
         except Exception:
             data = 0
         return data
