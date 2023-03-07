@@ -24,25 +24,20 @@ class Cache:
     def get(self, key: str, fn: Optional[Callable]) -> \
             Union[str, bytes, int, float, None]:
         """ Get data and convert it the desired format """
-        if not key:
-            return None
-
-        data = self._redis.get(key)
-        if not data:
-            return None
-
         if fn is None:
             return self._redis.get(key)
         else:
             data = self._redis.get(key)
             return fn(data)
 
-    def get_str(self, key: str) -> str:
+    def get_str(self, data: str) -> str:
         """ Get data and convert it to str """
-        data = self.get(key=key, fn=lambda d: d.decode("utf-8"))
-        return data
+        return data.decode("utf-8")
 
-    def get_int(self, key: str) -> int:
+    def get_int(self, data: str) -> int:
         """ Get data and convert it to int """
-        data = self.get(key=key, fn=int)
+        try:
+            data = int(data)
+        except Exception:
+            data = 0
         return data
