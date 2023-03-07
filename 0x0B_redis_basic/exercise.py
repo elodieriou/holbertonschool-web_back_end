@@ -21,8 +21,12 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable]) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Optional[Callable]) -> Union[str, bytes, int, float, None]:
         """ Get data and convert it the desired format """
+        data = self._redis.get(key)
+        if not data:
+            return None
+
         if fn is None:
             return self._redis.get(key)
         else:
@@ -30,11 +34,11 @@ class Cache:
             return fn(data)
 
     def get_str(self, data: str) -> str:
-        """ Get data and convert it to str """
+        """Convert data to str """
         return data.decode("utf-8")
 
     def get_int(self, data: str) -> int:
-        """ Get data and convert it to int """
+        """ Convert data to int """
         try:
             data = int(data.decode("utf-8"))
         except Exception:
