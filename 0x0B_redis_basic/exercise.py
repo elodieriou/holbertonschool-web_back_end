@@ -11,10 +11,10 @@ def count_calls(method: Callable) -> Callable:
     key = method.__qualname__
 
     @wraps(method)
-    def wrapper(self, *args, **kwargs) -> Any:
+    def wrapper(self, *args) -> Any:
         """ Wrapper method """
         self._redis.incr(key)
-        return method(self, *args, **kwargs)
+        return method(self, *args)
 
     return wrapper
 
@@ -24,17 +24,30 @@ def call_history(method: Callable) -> Callable:
     key = method.__qualname__
 
     @wraps(method)
-    def wrapper(self, *args, **kwargs) -> Any:
+    def wrapper(self, *args) -> Any:
         """ Wrapper method """
         inputs = str(args)
         self._redis.rpush(f'{key}:inputs', inputs)
 
-        outputs = str(method(self, *args, **kwargs))
+        outputs = str(method(self, *args))
         self._redis.rpush(f'{key}:outputs', outputs)
 
         return outputs
 
     return wrapper
+
+
+def replay(method: Callable) -> None:
+    """ Display the history of calls """
+    key = method.__qualname__
+    self = method.__self__
+    count = self._redis.get(key).decode('utf-8')
+    print(f'{key} was called {count} times:')
+
+    inputs = self._redis.lrange(f'{key}:inputs', 0, -1)
+    outputs = self._redis.lrange(f'{key}:outputs', 0, -1)
+    for i, o in zip(inputs, outputs):
+        print(f"{key}(*{i.decode('utf-8')}) -> {o.decode('utf-8')}")
 
 
 class Cache:
