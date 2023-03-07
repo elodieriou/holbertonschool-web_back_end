@@ -2,7 +2,7 @@
 """ Redis module """
 import redis
 import uuid
-from typing import Union
+from typing import Union, Optional, Callable
 
 
 class Cache:
@@ -20,3 +20,22 @@ class Cache:
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
+
+    def get(self, key: str, fn: Optional[Callable]) -> \
+            Union[str, bytes, int, float]:
+        """ Get data and convert it the desired format """
+        if fn is None:
+            return self._redis.get(key)
+        else:
+            data = self._redis.get(key)
+            return fn(data)
+
+    def get_str(self, key: str) -> str:
+        """ Get data and convert it to str """
+        data = self.get(key=key, fn=str)
+        return data
+
+    def get_int(self, key: str) -> int:
+        """ Get data and convert it to int """
+        data = self.get(key=key, fn=int)
+        return data
