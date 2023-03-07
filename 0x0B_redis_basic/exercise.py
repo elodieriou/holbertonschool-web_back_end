@@ -32,7 +32,7 @@ class Cache:
 
     def get_str(self, key: str) -> str:
         """ Get data and convert it to str """
-        data = self.get(key=key, fn=str)
+        data = self.get(key=key, fn=lambda d: d.decode("utf-8"))
         return data
 
     def get_int(self, key: str) -> int:
