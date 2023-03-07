@@ -24,6 +24,9 @@ class Cache:
     def get(self, key: str, fn: Optional[Callable]) -> \
             Union[str, bytes, int, float]:
         """ Get data and convert it the desired format """
+        if not key:
+            return None
+
         if fn is None:
             return self._redis.get(key)
         else:
