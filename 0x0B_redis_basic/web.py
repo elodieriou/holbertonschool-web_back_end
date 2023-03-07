@@ -16,6 +16,7 @@ def tracker(method: Callable) -> Callable:
         key = f'count:{url}'
         r.incr(key)
         r.expire(key, 10)
+        r.get(key)
         return method(url)
 
     return wrapper
