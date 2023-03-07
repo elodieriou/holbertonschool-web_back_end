@@ -13,10 +13,12 @@ def tracker(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(url) -> Any:
         """ Wrapper method """
-        key = f'count:{url}'
-        r.incr(key)
-        r.get(key)
-        r.expire(key, 10)
+        count = f'count:{url}'
+        cache = f'cached:{url}'
+
+        r.incr(count)
+        r.expire(cache, 10)
+
         return method(url)
 
     return wrapper
