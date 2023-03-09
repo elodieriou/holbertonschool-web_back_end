@@ -15,7 +15,7 @@ BEGIN
             WHERE user_id = @user_id LIMIT 1 OFFSET i);
 
         IF @score IS NOT NULL AND @weight IS NOT NULL THEN
-            SET average_weighted = SUM(score * weight) / SUM(weight);
+            SET average_weighted = SUM(@score * @weight) / SUM(@weight);
             UPDATE users SET average_score = average_weighted WHERE id = @user_id;
         END IF;
 
