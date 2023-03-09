@@ -5,10 +5,12 @@ CREATE FUNCTION SafeDiv (a INT, b INT)
 RETURNS DOUBLE
 DETERMINISTIC
 BEGIN
+    DECLARE result DOUBLE;
     IF b = 0 THEN
-        RETURN 0;
+        SET result = 0;
     ELSE
-        RETURN a / b;
+        SET result = a / b;
     END IF;
+    RETURN result;
 END$$
 DELIMITER ;
