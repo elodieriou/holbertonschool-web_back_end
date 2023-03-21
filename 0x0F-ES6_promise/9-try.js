@@ -4,7 +4,7 @@ export default function guardrail(matchFunction) {
   try {
     queue.push(matchFunction());
   } catch (error) {
-    queue.push(error);
+    queue.push(`${error.name}: ${error.message}`);
   }
 
   queue.push('Guardrail was processed');
