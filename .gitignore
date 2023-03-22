@@ -2,7 +2,9 @@
 *-main.js
 *-main.py
 *-app.py
+package-lock.json
 nodesource_setup.sh
+*.db
 
 # Directory to ignore
 node_modules/
