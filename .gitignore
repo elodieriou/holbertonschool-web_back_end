@@ -1,0 +1,8 @@
+# File to ignore
+*-main.js
+*-main.py
+*-app.py
+nodesource_setup.sh
+
+# Directory to ignore
+node_modules/
