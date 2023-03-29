@@ -22,19 +22,14 @@ function countStudents(database_file) {
         }
     });
 
-    const studentsInCS = students.filter((element) => element[3] === speciality[0]);
-    const namesCS = [];
-    studentsInCS.forEach((student) => {
-        namesCS.push(student[0]);
+    speciality.forEach((spe) => {
+        const studentsBySpe = students.filter((element) => element[3] === spe);
+        const namesStudents = [];
+        studentsBySpe.forEach((student) => {
+            namesStudents.push(student[0]);
+        });
+        console.log(`Number of students in ${spe}: ${studentsBySpe.length}. List: ${namesStudents.join(', ')}`);
     });
-    console.log(`Number of students in ${speciality[0]}: ${studentsInCS.length}. List: ${namesCS.join(', ')}`);
-
-    const studentsInSWE = students.filter((element) => element[3] === speciality[1]);
-    const namesSWE = [];
-    studentsInSWE.forEach((student) => {
-        namesSWE.push(student[0]);
-    });
-    console.log(`Number of students in ${speciality[1]}: ${studentsInSWE.length}. List: ${namesSWE.join(', ')}`);
 }
 
 module.exports = countStudents;
