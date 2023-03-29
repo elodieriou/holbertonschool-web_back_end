@@ -9,10 +9,13 @@ function countStudents(database_file) {
                 reject(Error('Cannot load the database'));
             }
 
+            const response = [];
+
             const removeNewLine = data.split('\n');
             removeNewLine.shift();
             const students = removeNewLine.filter((element) => element).map((students) => students.split(','));
             console.log(`Number of students: ${students.length}`);
+            response.push(`Number of students: ${students.length}`);
 
             const speciality = [];
             students.forEach((student) => {
@@ -28,6 +31,7 @@ function countStudents(database_file) {
                 namesCS.push(student[0]);
             });
             console.log(`Number of students in ${speciality[0]}: ${studentsInCS.length}. List: ${namesCS.join(', ')}`);
+            response.push(`Number of students in ${speciality[0]}: ${studentsInCS.length}. List: ${namesCS.join(', ')}`);
 
             const studentsInSWE = students.filter((element) => element[3] === speciality[1]);
             const namesSWE = [];
@@ -35,8 +39,9 @@ function countStudents(database_file) {
                 namesSWE.push(student[0]);
             });
             console.log(`Number of students in ${speciality[1]}: ${studentsInSWE.length}. List: ${namesSWE.join(', ')}`);
+            response.push(`Number of students in ${speciality[1]}: ${studentsInSWE.length}. List: ${namesSWE.join(', ')}`);
 
-            resolve();
+            resolve(response);
         });
     });
 }
