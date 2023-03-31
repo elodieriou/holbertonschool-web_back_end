@@ -10,7 +10,7 @@ class StudentsController {
         readDatabase(file)
             .then((data) => {
                 Object.entries(data).forEach(([key, values]) => {
-                    studentsBySpe.push(`Number of students in ${key}: ${values.length}. List: ${values}`);
+                    studentsBySpe.push(`Number of students in ${key}: ${values.length}. List: ${values.join(', ')}`);
                 });
                 response.status(200);
                 response.end(`${studentsBySpe.join('\n')}`);

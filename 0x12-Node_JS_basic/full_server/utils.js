@@ -17,11 +17,14 @@ function readDatabase(file) {
                         accumulator[spe] = [];
                     }
                     accumulator[spe].push(firstName);
-
                     return accumulator;
                 }, {});
 
-                resolve(studentsBySeciality);
+                const sortedSpeciality = {};
+                Object.keys(studentsBySeciality).sort().forEach((key) => {
+                    sortedSpeciality[key] = studentsBySeciality[key];
+                });
+                resolve(sortedSpeciality);
             }
         });
     });
