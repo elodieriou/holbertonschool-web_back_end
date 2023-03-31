@@ -1,6 +1,5 @@
 const express = require('express');
 const countStudents = require('./3-read_file_async');
-const process = require('process');
 
 const hostname = '127.0.0.1';
 const port = 1245;
@@ -19,7 +18,7 @@ app.get('/students', (request, response) => {
             response.end(`${data.join('\n')}`);
         })
         .catch((error) => {
-            response.end(`${error.name}: ${error.message}`);
+            response.end(error.toString());
         });
 });
 
