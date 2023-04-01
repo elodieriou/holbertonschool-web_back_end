@@ -8,20 +8,19 @@ const file = process.argv[2];
 const app = express();
 
 app.get('/', (request, response) => {
-    response.send('Hello Holberton School!');
+  response.send('Hello Holberton School!');
 });
 
 app.get('/students', (request, response) => {
-    response.write('This is the list of our students\n');
-    countStudents(file)
-        .then((data) => {
-            response.end(`${data.join('\n')}`);
-        })
-        .catch((error) => {
-            response.end(error.message);
-        });
+  response.write('This is the list of our students\n');
+  countStudents(file)
+    .then((data) => {
+      response.end(`${data.join('\n')}`);
+    })
+    .catch((error) => {
+      response.end(error.message);
+    });
 });
-
 
 app.listen(port, hostname);
 module.exports = app;
