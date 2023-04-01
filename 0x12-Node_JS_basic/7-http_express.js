@@ -18,7 +18,7 @@ app.get('/students', (request, response) => {
             response.end(`${data.join('\n')}`);
         })
         .catch((error) => {
-            response.end(error.toString());
+            response.end(error.message);
         });
 });
 
