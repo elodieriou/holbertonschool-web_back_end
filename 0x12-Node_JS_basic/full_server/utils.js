@@ -20,10 +20,10 @@ function readDatabase(file) {
                     return accumulator;
                 }, {});
 
-                const sortedSpeciality = {};
-                Object.keys(studentsBySeciality).sort().forEach((key) => {
-                    sortedSpeciality[key] = studentsBySeciality[key];
-                });
+                const sortedSpeciality = Object.fromEntries(
+                    Object.entries(studentsBySeciality)
+                        .sort(([keyA], [keyB]) => keyA.localeCompare(keyB, 'en', { sensitivity: 'base' }))
+                );
                 resolve(sortedSpeciality);
             }
         });
