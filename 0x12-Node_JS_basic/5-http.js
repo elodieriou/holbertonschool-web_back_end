@@ -21,7 +21,7 @@ const app = http.createServer(  (request, response) => {
             response.end(`${data.join('\n')}`);
             })
             .catch((error) => {
-                response.end(`${error.name}: ${error.message}`);
+                response.end(`${error.message}`);
             });
     }
 });
