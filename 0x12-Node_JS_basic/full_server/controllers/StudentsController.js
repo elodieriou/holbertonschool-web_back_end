@@ -1,9 +1,7 @@
 import readDatabase from '../utils';
-import process from 'process';
 
-const file = process.argv[2];
 class StudentsController {
-    static getAllStudents(request, response) {
+    static getAllStudents(request, response, file) {
         response.write('This is the list of our students\n');
 
         const studentsBySpe = []
@@ -21,7 +19,7 @@ class StudentsController {
             });
     }
 
-    static getAllStudentsByMajor(request, response) {
+    static getAllStudentsByMajor(request, response, file) {
         const { major } = request.params;
         if (!major.includes('CS') && !major.includes('SWE')) {
             response.status(500);
@@ -34,7 +32,7 @@ class StudentsController {
             })
             .catch((error) => {
                 response.status(500);
-                response.end('Cannot load the database');
+                response.end(error.message);
             });
     }
 }

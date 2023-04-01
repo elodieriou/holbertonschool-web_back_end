@@ -6,8 +6,12 @@ const router = express.Router();
 
 router.get('/', AppController.getHomepage);
 
-router.get('/students', StudentsController.getAllStudents);
+router.get('/students', (request, response) => {
+    StudentsController.getAllStudents(request, response, process.argv[2]);
+});
 
-router.get('/students/:major', StudentsController.getAllStudentsByMajor);
+router.get('/students/:major', (request, response) => {
+    StudentsController.getAllStudentsByMajor(request, response, process.argv[2]);
+});
 
 export default router;
