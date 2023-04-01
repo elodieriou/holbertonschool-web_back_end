@@ -7,7 +7,7 @@ class StudentsController {
     const studentsBySpe = [];
     readDatabase(file)
       .then((data) => {
-        Object.entries(data).forEach(([key, values]) => {
+        Object.entries(data).sort().forEach(([key, values]) => {
           studentsBySpe.push(`Number of students in ${key}: ${values.length}. List: ${values.join(', ')}`);
         });
         response.status(200);

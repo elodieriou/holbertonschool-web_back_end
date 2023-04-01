@@ -20,11 +20,7 @@ function readDatabase(file) {
           return accumulator;
         }, {});
 
-        const sortedSpeciality = {};
-        Object.keys(studentsBySeciality).sort().forEach((key) => {
-          sortedSpeciality[key] = studentsBySeciality[key];
-        });
-        resolve(sortedSpeciality);
+        resolve(studentsBySeciality);
       }
     });
   });
