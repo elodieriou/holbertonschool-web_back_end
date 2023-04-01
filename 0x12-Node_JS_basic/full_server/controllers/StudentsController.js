@@ -11,11 +11,11 @@ class StudentsController {
           studentsBySpe.push(`Number of students in ${key}: ${values.length}. List: ${values.join(', ')}`);
         });
         response.status(200);
-        response.send(`${studentsBySpe.join('\n')}`);
+        response.end(`${studentsBySpe.join('\n')}`);
       })
       .catch((error) => {
         response.status(500);
-        response.send(error.message);
+        response.end(error.message);
       });
   }
 
@@ -23,16 +23,16 @@ class StudentsController {
     const { major } = request.params;
     if (!major.includes('CS') && !major.includes('SWE')) {
       response.status(500);
-      response.send('Major parameter must be CS or SWE');
+      response.end('Major parameter must be CS or SWE');
     }
     readDatabase(file)
       .then((data) => {
         response.status(200);
-        response.send(`List: ${data[major].join(', ')}`);
+        response.end(`List: ${data[major].join(', ')}`);
       })
       .catch((error) => {
         response.status(500);
-        response.send(error.message);
+        response.end(error.message);
       });
   }
 }
