@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', AppController.getHomepage);
 
-router.get('/students', (request, response) => {
+router.get('/students/', (request, response) => {
   StudentsController.getAllStudents(request, response, process.argv[2]);
 });
 
