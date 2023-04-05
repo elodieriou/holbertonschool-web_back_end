@@ -17,17 +17,6 @@ describe('sendPaymentRequestToApi', () => {
     calculateNumberSpy.restore();
   });
 
-  it('should call the Utils.calculateNumber with the correct parameters', () => {
-    const calculateNumberSpy = sinon.stub(Utils, 'calculateNumber');
-
-    sendPaymentRequestToApi(100, 20);
-
-    sinon.assert.calledOnce(calculateNumberSpy);
-    sinon.assert.calledWith(calculateNumberSpy, 'SUM', 100, 20);
-
-    calculateNumberSpy.restore();
-  });
-
   it('should call the Utils.calculateNumber and displays console.log', () => {
     const consoleLogSpy = sinon.stub(console, 'log');
 
