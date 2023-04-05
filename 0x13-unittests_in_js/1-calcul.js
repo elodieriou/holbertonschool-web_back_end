@@ -3,8 +3,8 @@ function calculateNumber(type, a, b) {
     throw new Error('Missing arguments');
   }
 
-  let arg1 = Number(a);
-  let arg2 = Number(b);
+  const arg1 = Math.round(a);
+  const arg2 = Math.round(b);
 
   if (Number.isNaN(arg1) || Number.isNaN(arg2)) {
     throw new TypeError('The a and b parameters must be integers');
@@ -13,9 +13,6 @@ function calculateNumber(type, a, b) {
   if (typeof type !== 'string') {
     throw new TypeError('The type parameter must be a string');
   }
-
-  arg1 = Math.round(arg1);
-  arg2 = Math.round(arg2);
 
   switch (type) {
     case 'SUM':
