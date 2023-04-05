@@ -1,5 +1,4 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const request = require('request');
 
 const { expect } = chai;
@@ -19,7 +18,7 @@ describe('basic integration testing', () => {
     });
   });
 
-  it('should request the method GET', () => (done) => {
+  it('should request the method GET', (done) => {
     request('http://localhost:7865', (error, response, body) => {
       expect(response.request.method).equal('GET');
       done();
