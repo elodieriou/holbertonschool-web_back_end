@@ -3,15 +3,15 @@ function calculateNumber(type, a, b) {
     throw new Error('Missing arguments');
   }
 
+  if (typeof type !== 'string') {
+    throw new TypeError('The type parameter must be a string');
+  }
+
   const arg1 = Math.round(a);
   const arg2 = Math.round(b);
 
   if (Number.isNaN(arg1) || Number.isNaN(arg2)) {
     throw new TypeError('The a and b parameters must be integers');
-  }
-
-  if (typeof type !== 'string') {
-    throw new TypeError('The type parameter must be a string');
   }
 
   switch (type) {
