@@ -17,21 +17,19 @@ describe('sendPaymentRequestToApi', () => {
     calculateNumberSpy.restore();
   });
 
-  it('should call the Utils.calculateNumber and displays console.log', () => {
+  it('should always return 10 and verify that log the message with returns value', (done) => {
+    const calculateNumberSpy = sinon.stub(Utils, 'calculateNumber');
+    calculateNumberSpy.returns(10);
+
+
     const consoleLogSpy = sinon.stub(console, 'log');
-
     sendPaymentRequestToApi(100, 20);
-
     sinon.assert.calledOnce(consoleLogSpy);
-    sinon.assert.calledWith(consoleLogSpy, 'The total is: 120');
+    sinon.assert.calledWith(consoleLogSpy, 'The total is: 10');
 
+    calculateNumberSpy.restore();
     consoleLogSpy.restore();
-  });
+    done();
 
-  it('should call the Utils.calculateNumber and returns the sum', () => {
-    const returnSpy = sinon.stub(Utils, 'calculateNumber');
-    returnSpy.returns(120);
-
-    returnSpy.restore();
   });
 });
