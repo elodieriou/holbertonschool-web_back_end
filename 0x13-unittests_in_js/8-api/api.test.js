@@ -9,15 +9,15 @@ describe('basic integration testing', () => {
     method: 'GET',
   };
 
-  it('should return a statuscode 200', () => (done) => {
-    request(options, (response) => {
+  it('should return a statuscode 200', (done) => {
+    request(options, (error, response) => {
       expect(response.statusCode).equal(200);
       done();
     });
   });
 
   it('should return the body', () => (done) => {
-    request(options, (body) => {
+    request(options, (error, response, body) => {
       expect(body).equal('Welcome to the payment system');
       done();
     });
