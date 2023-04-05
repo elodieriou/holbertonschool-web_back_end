@@ -21,7 +21,6 @@ describe('sendPaymentRequestToApi', () => {
     const calculateNumberSpy = sinon.stub(Utils, 'calculateNumber');
     calculateNumberSpy.returns(10);
 
-
     const consoleLogSpy = sinon.stub(console, 'log');
     sendPaymentRequestToApi(100, 20);
     sinon.assert.calledOnce(consoleLogSpy);
@@ -30,6 +29,5 @@ describe('sendPaymentRequestToApi', () => {
     calculateNumberSpy.restore();
     consoleLogSpy.restore();
     done();
-
   });
 });
