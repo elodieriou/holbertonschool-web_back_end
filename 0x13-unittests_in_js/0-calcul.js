@@ -3,14 +3,14 @@ function calculateNumber(a, b) {
     throw new Error('Missing arguments');
   }
 
-  const arg1 = Number(a);
-  const arg2 = Number(b);
+  const arg1 = Math.round(a);
+  const arg2 = Math.round(b);
 
   if (Number.isNaN(arg1) || Number.isNaN(arg2)) {
     throw new TypeError('Parameters must be integers');
   }
 
-  return Math.ceil(arg1 + arg2);
+  return arg1 + arg2;
 }
 
 module.exports = calculateNumber;
