@@ -7,7 +7,7 @@ const { expect } = chai;
 
 describe('sendPaymentRequestToApi', () => {
   it('should call the Utils.calculateNumber and result is equal to call sendPaymentRequestToApi', () => {
-    const calculateNumberSpy = sinon.stub(Utils, 'calculateNumber');
+    const calculateNumberSpy = sinon.spy(Utils, 'calculateNumber');
     const expected = Utils.calculateNumber('SUM', 100, 20);
     const actual = sendPaymentRequestToApi(100, 20);
 
