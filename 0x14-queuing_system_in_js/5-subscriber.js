@@ -13,9 +13,7 @@ client.on('error', (error) => {
 const CHANNEL = 'holberton school channel';
 client.subscribe(CHANNEL);
 client.on('message', (channel, message) => {
-  if (channel === CHANNEL) {
-    console.log(message);
-  }
+  if (channel === CHANNEL) console.log(message);
   if (message === 'KILL_SERVER') {
     client.unsubscribe();
     client.quit();
