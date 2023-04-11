@@ -3,8 +3,8 @@ import kue from 'kue';
 const queue = kue.createQueue();
 
 const object = {
-  phoneNumber: '0645649206',
-  message: 'Hello Élo!',
+  phoneNumber: '4153518780',
+  message: 'This is the code to verify your account',
 };
 
 const queueName = 'push_notification_code';
