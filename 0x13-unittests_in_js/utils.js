@@ -24,10 +24,7 @@ const Utils = {
       case 'SUBTRACT':
         return arg1 - arg2;
       case 'DIVIDE':
-        if (arg2 === 0) {
-          return 'Error';
-        }
-        return arg1 / arg2;
+        return (arg2 === 0) ? 'Error' : arg1 / arg2;
       default:
         throw new Error('The type parameter only accept SUM, SUBTRACT, or DIVIDE');
     }
