@@ -75,16 +75,10 @@ app.get('/reserve_product/:itemId', async (request, response) => {
   let currentStock = await getCurrentReservedStockById(itemId);
   if (currentStock === null) currentStock = item.stock;
 
-  const itemNotEnough = {
-    status: 'Not enough stock available',
-    itemId,
-  };
+  const itemNotEnough = { status: 'Not enough stock available', itemId };
   if (currentStock < 1) response.end(JSON.stringify(itemNotEnough));
 
-  const reserveStock = {
-    status: 'Reservation confirmed',
-    itemId,
-  };
+  const reserveStock = { status: 'Reservation confirmed', itemId };
   reserveStockById(itemId, Number(currentStock) - 1);
   response.end(JSON.stringify(reserveStock));
 });
