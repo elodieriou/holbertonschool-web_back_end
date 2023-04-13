@@ -85,5 +85,10 @@ app.get('/reserve_product/:itemId', async (request, response) => {
   }
 });
 
-app.listen(port);
+app.listen(port, () => {
+  // Initialize value for the exercice when Redis start (NOT doing this in real situation)
+  listProducts.forEach((product) => {
+    reserveStockById(product.id, product.stock);
+  });
+});
 module.exports = app;
