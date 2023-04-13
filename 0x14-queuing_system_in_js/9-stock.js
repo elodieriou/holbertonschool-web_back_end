@@ -48,9 +48,7 @@ async function getCurrentReservedStockById(itemId) {
 
 const port = 1245;
 const app = express();
-const itemNotFound = {
-  status: 'Product not found',
-};
+const itemNotFound = { status: 'Product not found' };
 
 app.get('/list_products', (request, response) => {
   response.end(JSON.stringify(listProducts));
@@ -61,26 +59,30 @@ app.get('/list_products/:itemId', async (request, response) => {
   const item = getItemById(itemId);
   if (!item) response.end(JSON.stringify(itemNotFound));
 
-  let currentStock = await getCurrentReservedStockById(itemId);
-  currentStock = currentStock === null ? item.stock : currentStock;
-  item.currentStock = currentStock;
-  response.end(JSON.stringify(item));
+  else {
+    let currentStock = await getCurrentReservedStockById(itemId);
+    currentStock = currentStock === null ? item.stock : currentStock;
+    item.currentStock = currentStock;
+    response.end(JSON.stringify(item));
+  }
 });
 
 app.get('/reserve_product/:itemId', async (request, response) => {
   const itemId = Number(request.params.itemId);
   const item = getItemById(itemId);
   if (!item) response.end(JSON.stringify(itemNotFound));
+  else {
+    let currentStock = await getCurrentReservedStockById(itemId);
+    if (currentStock === null) currentStock = item.stock;
 
-  let currentStock = await getCurrentReservedStockById(itemId);
-  if (currentStock === null) currentStock = item.stock;
-
-  const itemNotEnough = { status: 'Not enough stock available', itemId };
-  if (currentStock < 1) response.end(JSON.stringify(itemNotEnough));
-
-  const reserveStock = { status: 'Reservation confirmed', itemId };
-  reserveStockById(itemId, Number(currentStock) - 1);
-  response.end(JSON.stringify(reserveStock));
+    const itemNotEnough = { status: 'Not enough stock available', itemId };
+    if (currentStock < 1) response.end(JSON.stringify(itemNotEnough));
+    else {
+      const reserveStock = { status: 'Reservation confirmed', itemId };
+      reserveStockById(itemId, Number(currentStock) - 1);
+      response.end(JSON.stringify(reserveStock));
+    }
+  }
 });
 
 app.listen(port);
