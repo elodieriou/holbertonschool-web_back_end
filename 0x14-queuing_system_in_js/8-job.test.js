@@ -34,7 +34,7 @@ describe('createPushNotificationsJobs', () => {
     expect(createPushNotificationsJobs([], queue)).equals(undefined);
   });
 
-  it('should create a job in the queue', async () => {
+  it('should create a job in the queue', () => {
     queue.createJob(queueName, jobs).save();
     expect(queue.testMode.jobs.length).to.equal(1);
   });
