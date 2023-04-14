@@ -47,34 +47,34 @@ app.get('/available_seats', async (request, response) => {
   const numberOfAvailableSeats = {
     numberOfAvailableSeats: currentAvailableSeats,
   };
-  response.end(JSON.stringify(numberOfAvailableSeats));
+  response.send(numberOfAvailableSeats);
 });
 
 app.get('/reserve_seat', (request, response) => {
   const reservationBlocked = { status: 'Reservation are blocked' };
-  if (!reservationEnabled) response.end(JSON.stringify(reservationBlocked));
-
-  const reservationProcess = { status: 'Reservation in process' };
-  const reservationFailed = { status: 'Reservation failed' };
-  const job = queue
-    .createJob(queueName)
-    .save((error) => {
-      if (!error) response.end(JSON.stringify(reservationProcess));
-      else response.end(JSON.stringify(reservationFailed));
+  if (!reservationEnabled) response.send(reservationBlocked);
+  else {
+    const reservationProcess = { status: 'Reservation in process' };
+    const reservationFailed = { status: 'Reservation failed' };
+    const job = queue
+      .createJob(queueName)
+      .save((error) => {
+        if (!error) response.send(reservationProcess);
+        else response.send(reservationFailed);
+      });
+    job.on('complete', () => {
+      console.log(`Seat reservation job ${job.id} completed`);
     });
 
-  job.on('complete', () => {
-    console.log(`Seat reservation job ${job.id} completed`);
-  });
-
-  job.on('failed', (error) => {
-    console.log(`Seat reservation job ${job.id} failed: ${error}`);
-  });
+    job.on('failed', (error) => {
+      console.log(`Seat reservation job ${job.id} failed: ${error}`);
+    });
+  }
 });
 
 app.get('/process', (request, response) => {
   const queueProcessing = { status: 'Queue processing' };
-  response.end(JSON.stringify(queueProcessing));
+  response.send(queueProcessing);
 
   queue.process(queueName, async (job, done) => {
     const currentAvailableSeat = await getCurrentAvailableSeats();

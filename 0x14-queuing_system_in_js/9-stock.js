@@ -51,36 +51,36 @@ const app = express();
 const itemNotFound = { status: 'Product not found' };
 
 app.get('/list_products', (request, response) => {
-  response.end(JSON.stringify(listProducts));
+  response.send(listProducts);
 });
 
 app.get('/list_products/:itemId', async (request, response) => {
   const itemId = Number(request.params.itemId);
   const item = getItemById(itemId);
-  if (!item) response.end(JSON.stringify(itemNotFound));
+  if (!item) response.send(itemNotFound);
 
   else {
     let currentStock = await getCurrentReservedStockById(itemId);
     currentStock = currentStock === null ? item.stock : currentStock;
     item.currentStock = currentStock;
-    response.end(JSON.stringify(item));
+    response.send(item);
   }
 });
 
 app.get('/reserve_product/:itemId', async (request, response) => {
   const itemId = Number(request.params.itemId);
   const item = getItemById(itemId);
-  if (!item) response.end(JSON.stringify(itemNotFound));
+  if (!item) response.send(itemNotFound);
   else {
     let currentStock = await getCurrentReservedStockById(itemId);
     if (currentStock === null) currentStock = item.stock;
 
     const itemNotEnough = { status: 'Not enough stock available', itemId };
-    if (currentStock < 1) response.end(JSON.stringify(itemNotEnough));
+    if (currentStock < 1) response.send(itemNotEnough);
     else {
       const reserveStock = { status: 'Reservation confirmed', itemId };
       reserveStockById(itemId, Number(currentStock) - 1);
-      response.end(JSON.stringify(reserveStock));
+      response.send(reserveStock);
     }
   }
 });
